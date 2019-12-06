@@ -1,0 +1,77 @@
+# Store input (assume > 0)
+	IN	
+start	STO	fn
+	OUT
+
+# Check if 1, stop
+onechk	SUB	one
+	BRZ	zero
+
+# Here is app logic
+# Assume >= 2 by this point
+# (fn/2) if even 
+# (3*fn+1) if odd
+# Repeatedly sub 2,
+# if even we get to 0 
+# if odd we should get to -ve
+even	LDA	zero
+	STO	count
+	LDA	fn
+
+# Sub big chunks
+bevnsub	STO	tempfn
+	LDA	count
+	ADD	hlfbig
+	STO	count
+	LDA	tempfn
+	SUB	big
+	BRZ	stpevn
+	BRP	bevnsub
+
+
+	ADD	big
+	STO	tempfn
+	LDA	count
+	SUB	hlfbig
+	STO	count
+	LDA	tempfn
+
+levnsub	STO	tempfn
+	LDA	count
+	ADD	one
+	STO	count
+	LDA	tempfn
+	SUB	two
+	BRZ	stpevn
+	BRP	levnsub
+	BR	odd
+
+stpevn	LDA	count
+	BR	start
+
+# Odd number
+odd	LDA	fn
+	SUB 	maxodd
+	BRP	toobig
+	LDA 	fn
+	ADD	fn
+	ADD	fn
+	ADD	one
+	BR	start
+
+# Branch to start, repeat with output as input
+# Make sure that the current calc val is fn
+toobig	LDA	zero
+	OUT
+
+# Constants, zero MUST be first
+zero	DAT	000
+one	DAT	001
+two	DAT	002
+big	DAT	032
+hlfbig	DAT	016
+maxodd	DAT	332
+# Variables
+fn	DAT	001
+tempfn	DAT	001
+count	DAT	000

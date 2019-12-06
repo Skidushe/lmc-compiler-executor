@@ -8,13 +8,11 @@ class Compiler:
     regex = r"([a-zA-Z]*)[\t]+([A-Z]{2,3})[\t\s]*([0-9a-zA-Z]*)\n"
     code = []
     
-    def load_and_abstract_code_from_file(self,file_name):
+    def abstract_code_from_string(self,string):
         self.code=[]
-        with open(file_name, "r") as f:
-            lines = f.read()
-            matches = re.finditer(self.regex, lines, re.MULTILINE)
-            for match in matches:
-                self.code.append(match.groups())
+        matches = re.finditer(self.regex, string, re.MULTILINE)
+        for match in matches:
+            self.code.append(match.groups())
 
     def compile(self):
         mailboxes = []
