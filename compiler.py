@@ -1,6 +1,3 @@
-#file_name = input("enter file name of LMC assembly: ")
-file_name = "advancedCOMP1071.txt"
-
 import re
 
 class Compiler:
